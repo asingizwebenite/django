@@ -1,11 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskMaster - Manage Your Tasks</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-<body>
-    <p>home page </p>
+<body class="bg-gray-50 font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-blue-600">TaskMaster</h1>
+      <div class="space-x-4">
+        <a href="#about" class="text-gray-700 hover:text-blue-600 transition">About Us</a>
+        <a href="#contact" class="text-gray-700 hover:text-blue-600 transition">Contact Us</a>
+        <a href="{% url 'signup' %}" class="text-gray-700 hover:text-blue-600 transition">Signup</a>
+        <a href="{% url 'login' %}" class="text-gray-700 hover:text-blue-600 transition">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-blue-50">
+    <div class="max-w-7xl mx-auto px-6 py-20 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Stay on Top of Your Tasks</h2>
+      <p class="text-gray-600 text-lg mb-8">Track, manage, and complete your tasks efficiently. TaskMaster helps you stay organized and productive.</p>
+      <a href="{% url 'signup' %}" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-blue-700 transition">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="max-w-7xl mx-auto px-6 py-20">
+    <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">Features</h3>
+    <div class="grid md:grid-cols-3 gap-10 text-center">
+      <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-blue-600 text-4xl mb-4">📊</div>
+        <h4 class="font-semibold text-xl mb-2">Track Progress</h4>
+        <p class="text-gray-600">Visualize your tasks and see your progress at a glance.</p>
+      </div>
+      <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-blue-600 text-4xl mb-4">⏰</div>
+        <h4 class="font-semibold text-xl mb-2">Deadlines & Reminders</h4>
+        <p class="text-gray-600">Set deadlines and never miss a task again with timely reminders.</p>
+      </div>
+      <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
+        <div class="text-blue-600 text-4xl mb-4">✅</div>
+        <h4 class="font-semibold text-xl mb-2">Completion Tracking</h4>
+        <p class="text-gray-600">Easily mark tasks as completed and analyze pending tasks.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section id="about" class="bg-white py-20">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h3 class="text-3xl font-bold text-gray-800 mb-8">About Us</h3>
+      <p class="text-gray-600 text-lg mb-6">TaskMaster is your personal task management system designed to help you stay organized and boost productivity. Whether you're managing work tasks, personal goals, or collaborative projects, TaskMaster provides an intuitive interface and powerful tracking tools.</p>
+      <p class="text-gray-600 text-lg mb-6">Our mission is to simplify task management for everyone. Track your progress, meet deadlines, and never lose sight of important tasks. TaskMaster is built with modern technology, responsive design, and user-friendly experience to ensure you get the most out of your day.</p>
+      <div class="mt-8 flex justify-center gap-4">
+        <a href="{% url 'signup' %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">Signup</a>
+        <a href="{% url 'login' %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">Login</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Us Section -->
+  <section id="contact" class="bg-blue-50 py-20">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h3 class="text-3xl font-bold text-gray-800 mb-8">Contact Us</h3>
+      <p class="text-gray-600 text-lg mb-4">Have questions or need help? Reach out to us anytime and we’ll be happy to assist.</p>
+      <p class="text-gray-600 text-lg mb-6">Email: support@taskmaster.com | Phone: +250 788 123 456</p>
+      <a href="mailto:support@taskmaster.com" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">Send Email</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow-inner mt-20">
+    <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="font-bold text-gray-800 mb-4">Quick Links</h4>
+        <ul class="space-y-2">
+          <li><a href="#about" class="text-gray-600 hover:text-blue-600 transition">About Us</a></li>
+          <li><a href="#contact" class="text-gray-600 hover:text-blue-600 transition">Contact Us</a></li>
+          <li><a href="{% url 'signup' %}" class="text-gray-600 hover:text-blue-600 transition">Signup</a></li>
+          <li><a href="{% url 'login' %}" class="text-gray-600 hover:text-blue-600 transition">Login</a></li>
+        </ul>
+      </div>
+
+      <!-- Social Icons -->
+      <div class="text-center">
+        <h4 class="font-bold text-gray-800 mb-4">Connect With Us</h4>
+        <div class="flex justify-center space-x-4 text-gray-600">
+          <a href="https://github.com/" target="_blank" class="hover:text-blue-600 transition text-2xl"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com/" target="_blank" class="hover:text-blue-600 transition text-2xl"><i class="fab fa-linkedin"></i></a>
+          <a href="mailto:support@taskmaster.com" class="hover:text-blue-600 transition text-2xl"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div>
+        <h4 class="font-bold text-gray-800 mb-4">Send Us a Message</h4>
+        <form action="mailto:support@taskmaster.com" method="post" class="space-y-4">
+          <input type="text" name="name" placeholder="Your Name" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
+          <input type="email" name="email" placeholder="Your Email" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
+          <textarea name="message" placeholder="Your Message" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition w-full">Send</button>
+        </form>
+      </div>
+
+    </div>
+    <div class="max-w-7xl mx-auto px-6 py-6 text-center text-gray-600">
+      &copy; 2025 TaskMaster. All rights reserved.
+    </div>
+  </footer>
+
 </body>
 </html>

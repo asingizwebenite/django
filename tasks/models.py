@@ -14,4 +14,4 @@ class Task(models.Model):
 
 
     def __str__(self):
-        return sel.title
+        return self.title
