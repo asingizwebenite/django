@@ -1,122 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TaskMaster - Manage Your Tasks</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
-<body class="bg-gray-50 font-sans">
-
-  <!-- Navbar -->
-  <nav class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-blue-600">TaskMaster</h1>
-      <div class="space-x-4">
-        <a href="#about" class="text-gray-700 hover:text-blue-600 transition">About Us</a>
-        <a href="#contact" class="text-gray-700 hover:text-blue-600 transition">Contact Us</a>
-        <a href="{% url 'signup' %}" class="text-gray-700 hover:text-blue-600 transition">Signup</a>
-        <a href="{% url 'login' %}" class="text-gray-700 hover:text-blue-600 transition">Login</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaSpark - Task Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      .navbar-height {
+        height: 64px;
+      }
+      .hero-background {
+        background-image: url("https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .section-spacing {
+        padding-top: 80px;
+      }
+      .section-title {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-gray-100 to-gray-200 font-sans">
+    <nav
+      class="bg-blue-900 text-white p-2 flex justify-between items-center fixed w-full z-10 navbar-height"
+    >
+      <div class="text-xl font-bold">TaSpark</div>
+      <div class="space-x-2 hidden md:block">
+        <a href="#home" class="text-white hover:text-blue-200">Home</a>
+        <a href="#about" class="text-white hover:text-blue-200">About</a>
+        <a href="#portfolio" class="text-white hover:text-blue-200"
+          >Portfolio</a
+        >
+        <a href="#contact" class="text-white hover:text-blue-200">Contact</a>
       </div>
-    </div>
-  </nav>
+      <div class="flex items-center space-x-2">
+        <a
+          href="{% url 'login' %}"
+          class="text-white hover:text-blue-200 px-2 py-1 rounded md:block hidden"
+          >Login</a
+        >
+        <a
+          href="{% url 'signup' %}"
+          class="text-white hover:text-blue-200 px-2 py-1 rounded md:block hidden"
+          >Sign Up</a
+        >
 
-  <!-- Hero Section -->
-  <section class="bg-blue-50">
-    <div class="max-w-7xl mx-auto px-6 py-20 text-center">
-      <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Stay on Top of Your Tasks</h2>
-      <p class="text-gray-600 text-lg mb-8">Track, manage, and complete your tasks efficiently. TaskMaster helps you stay organized and productive.</p>
-      <a href="{% url 'signup' %}" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-blue-700 transition">Get Started</a>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section id="features" class="max-w-7xl mx-auto px-6 py-20">
-    <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">Features</h3>
-    <div class="grid md:grid-cols-3 gap-10 text-center">
-      <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-blue-600 text-4xl mb-4">📊</div>
-        <h4 class="font-semibold text-xl mb-2">Track Progress</h4>
-        <p class="text-gray-600">Visualize your tasks and see your progress at a glance.</p>
+        <button class="md:hidden text-white">
+          <i class="fas fa-bars"></i>
+        </button>
       </div>
-      <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-blue-600 text-4xl mb-4">⏰</div>
-        <h4 class="font-semibold text-xl mb-2">Deadlines & Reminders</h4>
-        <p class="text-gray-600">Set deadlines and never miss a task again with timely reminders.</p>
-      </div>
-      <div class="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition">
-        <div class="text-blue-600 text-4xl mb-4">✅</div>
-        <h4 class="font-semibold text-xl mb-2">Completion Tracking</h4>
-        <p class="text-gray-600">Easily mark tasks as completed and analyze pending tasks.</p>
-      </div>
-    </div>
-  </section>
+    </nav>
 
-  <!-- About Us Section -->
-  <section id="about" class="bg-white py-20">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <h3 class="text-3xl font-bold text-gray-800 mb-8">About Us</h3>
-      <p class="text-gray-600 text-lg mb-6">TaskMaster is your personal task management system designed to help you stay organized and boost productivity. Whether you're managing work tasks, personal goals, or collaborative projects, TaskMaster provides an intuitive interface and powerful tracking tools.</p>
-      <p class="text-gray-600 text-lg mb-6">Our mission is to simplify task management for everyone. Track your progress, meet deadlines, and never lose sight of important tasks. TaskMaster is built with modern technology, responsive design, and user-friendly experience to ensure you get the most out of your day.</p>
-      <div class="mt-8 flex justify-center gap-4">
-        <a href="{% url 'signup' %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">Signup</a>
-        <a href="{% url 'login' %}" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">Login</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Us Section -->
-  <section id="contact" class="bg-blue-50 py-20">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <h3 class="text-3xl font-bold text-gray-800 mb-8">Contact Us</h3>
-      <p class="text-gray-600 text-lg mb-4">Have questions or need help? Reach out to us anytime and we’ll be happy to assist.</p>
-      <p class="text-gray-600 text-lg mb-6">Email: support@taskmaster.com | Phone: +250 788 123 456</p>
-      <a href="mailto:support@taskmaster.com" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">Send Email</a>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-white shadow-inner mt-20">
-    <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
-
-      <!-- Quick Links -->
-      <div>
-        <h4 class="font-bold text-gray-800 mb-4">Quick Links</h4>
-        <ul class="space-y-2">
-          <li><a href="#about" class="text-gray-600 hover:text-blue-600 transition">About Us</a></li>
-          <li><a href="#contact" class="text-gray-600 hover:text-blue-600 transition">Contact Us</a></li>
-          <li><a href="{% url 'signup' %}" class="text-gray-600 hover:text-blue-600 transition">Signup</a></li>
-          <li><a href="{% url 'login' %}" class="text-gray-600 hover:text-blue-600 transition">Login</a></li>
-        </ul>
-      </div>
-
-      <!-- Social Icons -->
-      <div class="text-center">
-        <h4 class="font-bold text-gray-800 mb-4">Connect With Us</h4>
-        <div class="flex justify-center space-x-4 text-gray-600">
-          <a href="https://github.com/" target="_blank" class="hover:text-blue-600 transition text-2xl"><i class="fab fa-github"></i></a>
-          <a href="https://linkedin.com/" target="_blank" class="hover:text-blue-600 transition text-2xl"><i class="fab fa-linkedin"></i></a>
-          <a href="mailto:support@taskmaster.com" class="hover:text-blue-600 transition text-2xl"><i class="fas fa-envelope"></i></a>
+    <div class="pt-16">
+      <section
+        id="home"
+        class="min-h-screen flex items-center justify-center hero-background text-white p-6 section-spacing"
+      >
+        <div
+          class="bg-black bg-opacity-50 p-4 rounded-lg max-w-4xl text-center"
+        >
+          <h2 class="text-4xl font-bold">Welcome to TaSpark</h2>
+          <p class="mt-2 text-lg">
+            Boost your productivity with task planning, tracking, and
+            notifications.
+          </p>
+          <button
+            class="mt-4 bg-blue-200 text-blue-700 px-4 py-2 rounded hover:bg-blue-300"
+          >
+            Get Started
+          </button>
         </div>
-      </div>
+      </section>
 
-      <!-- Contact Form -->
-      <div>
-        <h4 class="font-bold text-gray-800 mb-4">Send Us a Message</h4>
-        <form action="mailto:support@taskmaster.com" method="post" class="space-y-4">
-          <input type="text" name="name" placeholder="Your Name" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
-          <input type="email" name="email" placeholder="Your Email" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600">
-          <textarea name="message" placeholder="Your Message" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
-          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition w-full">Send</button>
-        </form>
-      </div>
+      <section id="about" class="p-6 bg-white section-spacing">
+        <h2 class="text-3xl font-bold text-center mb-4 section-title">
+          About Us
+        </h2>
+        <div class="flex flex-col md:flex-row justify-around flex-wrap">
+          <div class="w-full md:w-1/3 p-4 text-center">
+            <div
+              class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto"
+            >
+              <i class="fas fa-history"></i>
+            </div>
+            <h3 class="mt-2 font-semibold">Our Story</h3>
+            <p class="mt-1 text-gray-600">
+              Founded in 2015 to simplify task management.
+            </p>
+          </div>
+          <div class="w-full md:w-1/3 p-4 text-center">
+            <div
+              class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto"
+            >
+              <i class="fas fa-bullseye"></i>
+            </div>
+            <h3 class="mt-2 font-semibold">Our Mission</h3>
+            <p class="mt-1 text-gray-600">
+              Empower users with productive tools.
+            </p>
+          </div>
+          <div class="w-full md:w-1/3 p-4 text-center">
+            <div
+              class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto"
+            >
+              <i class="fas fa-eye"></i>
+            </div>
+            <h3 class="mt-2 font-semibold">Our Vision</h3>
+            <p class="mt-1 text-gray-600">Lead in task management solutions.</p>
+          </div>
+        </div>
+        <h3 class="text-2xl font-semibold text-center mt-6 mb-4 section-title">
+          What We've Got for You
+        </h3>
+        <div class="flex flex-col md:flex-row justify-around flex-wrap">
+          <div class="w-full md:w-1/3 p-4 text-center">
+            <div
+              class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto"
+            >
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <h3 class="mt-2 font-semibold">Task Planning</h3>
+            <p class="mt-1">Plan with deadlines and priorities.</p>
+          </div>
+          <div class="w-full md:w-1/3 p-4 text-center">
+            <div
+              class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto"
+            >
+              <i class="fas fa-check"></i>
+            </div>
+            <h3 class="mt-2 font-semibold">Task Completion</h3>
+            <p class="mt-1">Track progress with ease.</p>
+          </div>
+          <div class="w-full md:w-1/3 p-4 text-center">
+            <div
+              class="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto"
+            >
+              <i class="fas fa-bell"></i>
+            </div>
+            <h3 class="mt-2 font-semibold">Notifications</h3>
+            <p class="mt-1">Get timely alerts.</p>
+          </div>
+        </div>
+        <p class="mt-4 text-center text-gray-500">
+          Join us to transform task management!
+        </p>
+      </section>
 
+      <section id="portfolio" class="p-6 bg-white section-spacing">
+        <h2 class="text-3xl font-bold text-center mb-4 section-title">
+          Our Portfolio
+        </h2>
+        <p class="text-center mb-4 text-gray-600">
+          Successful task management implementations.
+        </p>
+        <div class="flex justify-around flex-wrap">
+          <div class="w-full md:w-1/4 p-4 text-center">
+            <i class="fas fa-calendar-check text-3xl text-blue-600 mb-1"></i>
+            <h3 class="font-semibold">Task Planning</h3>
+            <p class="mt-1 text-gray-500">Helped 500+ users.</p>
+          </div>
+          <div class="w-full md:w-1/4 p-4 text-center">
+            <i class="fas fa-chart-line text-3xl text-blue-600 mb-1"></i>
+            <h3 class="font-semibold">Task Tracking</h3>
+            <p class="mt-1 text-gray-500">Improved 300+ teams.</p>
+          </div>
+          <div class="w-full md:w-1/4 p-4 text-center">
+            <i class="fas fa-bell text-3xl text-blue-600 mb-1"></i>
+            <h3 class="font-semibold">Notifications</h3>
+            <p class="mt-1 text-gray-500">Sent 10,000+ reminders.</p>
+          </div>
+          <div class="w-full md:w-1/4 p-4 text-center">
+            <i class="fas fa-sync-alt text-3xl text-blue-600 mb-1"></i>
+            <h3 class="font-semibold">Consistency</h3>
+            <p class="mt-1 text-gray-500">Boosted by 40%.</p>
+          </div>
+        </div>
+        <p class="mt-4 text-center text-gray-500">See TaSpark's impact!</p>
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="text-center">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+              alt="User 1"
+              class="rounded-full mx-auto mb-1 w-20 h-20"
+            />
+            <p class="text-gray-600 italic">"Changed my workflow!" - Jane D.</p>
+          </div>
+          <div class="text-center">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+              alt="User 2"
+              class="rounded-full mx-auto mb-1 w-20 h-20"
+            />
+            <p class="text-gray-600 italic">
+              "Notifications saved me!" - Mike T.
+            </p>
+          </div>
+          <div class="text-center">
+            <img
+              src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+              alt="User 3"
+              class="rounded-full mx-auto mb-1 w-20 h-20"
+            />
+            <p class="text-gray-600 italic">"More organized!" - Sarah K.</p>
+          </div>
+          <div class="text-center">
+            <img
+              src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+              alt="User 4"
+              class="rounded-full mx-auto mb-1 w-20 h-20"
+            />
+            <p class="text-gray-600 italic">"Highly recommend!" - John R.</p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="contact"
+        class="p-6 bg-blue-100 text-gray-800 section-spacing"
+      >
+        <h2 class="text-3xl font-bold text-center mb-4 section-title">
+          Contact Us
+        </h2>
+        <div
+          class="flex flex-col md:flex-row justify-between max-w-4xl mx-auto"
+        >
+          <div class="w-full md:w-1/2 mb-4 md:mb-0">
+            <img
+              src="https://images.unsplash.com/photo-1506784897224-6c4e4ae67aaf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+              alt="Contact Image"
+              class="w-full h-48 object-cover rounded"
+            />
+          </div>
+          <div class="w-full md:w-1/2">
+            <form id="contactForm" class="space-y-2">
+              <input
+                type="text"
+                id="name"
+                placeholder="Your Name"
+                class="w-full p-2 rounded"
+                required
+              />
+              <textarea
+                id="message"
+                placeholder="Your Message"
+                class="w-full p-2 rounded h-24"
+                required
+              ></textarea>
+              <button
+                type="submit"
+                class="bg-blue-200 text-blue-700 px-3 py-1 rounded hover:bg-blue-300"
+              >
+                Send
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <footer class="bg-gradient-to-r from-blue-900 to-blue-700 text-white p-6">
+        <div
+          class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center"
+        >
+          <div class="grid grid-cols-2 gap-4 mb-4 md:mb-0">
+            <div>
+              <a
+                href="#home"
+                class="block text-center md:text-left hover:text-blue-300"
+                >Home</a
+              >
+              <a
+                href="#about"
+                class="block text-center md:text-left hover:text-blue-300"
+                >About</a
+              >
+            </div>
+            <div>
+              <a
+                href="#portfolio"
+                class="block text-center md:text-left hover:text-blue-300"
+                >Portfolio</a
+              >
+              <a
+                href="#contact"
+                class="block text-center md:text-left hover:text-blue-300"
+                >Contact</a
+              >
+            </div>
+          </div>
+          <div class="flex space-x-4">
+            <a href="mailto:contact@taspark.com" class="hover:text-blue-300"
+              ><i class="fas fa-envelope text-xl"></i
+            ></a>
+            <a href="tel:+1234567890" class="hover:text-blue-300"
+              ><i class="fas fa-phone text-xl"></i
+            ></a>
+            <a href="https://www.linkedin.com" class="hover:text-blue-300"
+              ><i class="fab fa-linkedin text-xl"></i
+            ></a>
+            <a href="https://www.github.com" class="hover:text-blue-300"
+              ><i class="fab fa-github text-xl"></i
+            ></a>
+          </div>
+        </div>
+      </footer>
     </div>
-    <div class="max-w-7xl mx-auto px-6 py-6 text-center text-gray-600">
-      &copy; 2025 TaskMaster. All rights reserved.
-    </div>
-  </footer>
 
-</body>
+    <script>
+      const menuToggle = document.querySelector(".md:hidden");
+      const navLinks = document.querySelectorAll("nav .space-x-2 a");
+      menuToggle.addEventListener("click", () =>
+        navLinks.forEach((link) => link.classList.toggle("hidden"))
+      );
+      document.getElementById("contactForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Message sent! Thank you for your feedback.");
+        document.getElementById("name").value = "";
+        document.getElementById("message").value = "";
+      });
+    </script>
+  </body>
 </html>

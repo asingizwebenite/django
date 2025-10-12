@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Task
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from datetime import timedelta
 
 def landing(request):
     return render(request, 'tasks/landing.html')
@@ -24,35 +26,27 @@ def dashboard(request):
     }
     return render(request, 'tasks/dashboard.html', context)
 
-
-
 @login_required
 def tasks(request):
-    tasks = Task.objects.filter(request.user)
-    return render(request, 'tasks/tasks.html', {'tasks':tasks})
-
+    tasks = Task.objects.filter(user=request.user)  # Corrected filter syntax
+    return render(request, 'tasks/tasks.html', {'tasks': tasks})
 
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request,username=username, password=password )
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
             return redirect('dashboard')
         else:
-            return render(request, 'tasks/login.html', {'error':'invlalid credentials'})
-
-    
-       
+            return render(request, 'tasks/login.html', {'error': 'Invalid credentials'})
     return render(request, 'tasks/login.html')
-
-
 
 @login_required
 def delete_task(request, id):
-    task = get_object_or_404(Task,id=id)
+    task = get_object_or_404(Task, id=id)
     task.delete()
     return redirect('tasks')
 
@@ -65,9 +59,7 @@ def user_signup(request):
             return redirect('dashboard')
     else:
         form = UserCreationForm()
-    return render(request, 'login.html', {'form':form})
-
-
+    return render(request, 'tasks/signup.html', {'form': form})
 
 def user_logout(request):
     logout(request)
@@ -78,10 +70,9 @@ def create_task(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
-        Task.objects.create(title=title, description=description)
-        return redirect('task_list')
+        Task.objects.create(title=title, description=description, user=request.user)  # Associate with user
+        return redirect('tasks')
     return render(request, 'tasks/task_form.html')
-
 
 @login_required
 def update_task(request, id):
@@ -91,11 +82,5 @@ def update_task(request, id):
         task.description = request.POST.get('description')
         task.completed = 'completed' in request.POST
         task.save()
-        return redirect('task_list')
+        return redirect('tasks')
     return render(request, 'tasks/task_form.html', {'task': task})
-
-
-
-
-
-
