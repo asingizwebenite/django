@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressBar = document.getElementById('progress-bar');
+        const width = progressBar.getAttribute('data-width');
+        progressBar.style.width = width + '%';
+    });
+</script>
+
+
+
+
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-tasks text-primary-600 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-gray-800">TaskManager</span>
+                    </div>
+                    <div class="hidden md:ml-6 md:flex md:space-x-8">
+                        <a href="#" class="border-primary-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Dashboard</a>
+                        <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Tasks</a>
+                        <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Calendar</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <button type="button" class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <i class="fas fa-plus mr-2"></i> New Task
+                        </button>
+                    </div>
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <div class="ml-3 relative">
+                            <div class="flex items-center">
+                                <span class="mr-2 text-sm font-medium text-gray-700">{{ user.username }}</span>
+                                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <!-- Page Header -->
+        <div class="px-4 py-6 sm:px-0">
+            <div class="border-b border-gray-200 pb-5">
+                <h1 class="text-3xl font-bold leading-tight text-gray-900">Dashboard</h1>
+                <p class="mt-2 text-sm text-gray-600">Welcome back, {{ user.username }}! Here's an overview of your tasks.</p>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="mt-8 px-4 sm:px-0">
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                <!-- Total Tasks Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-primary-100 rounded-md p-3">
+                                <i class="fas fa-tasks text-primary-600 text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">Total Tasks</dt>
+                                    <dd class="text-lg font-medium text-gray-900">{{ total_tasks }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-4 sm:px-6">
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-primary-600 hover:text-primary-500">View all<span class="sr-only"> Total Tasks</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed Tasks Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
+                                <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">Completed Tasks</dt>
+                                    <dd class="text-lg font-medium text-gray-900">{{ completed_tasks }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-4 sm:px-6">
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-primary-600 hover:text-primary-500">View completed<span class="sr-only"> Completed Tasks</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasks Added This Week Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
+                                <i class="fas fa-calendar-plus text-blue-600 text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">Added This Week</dt>
+                                    <dd class="text-lg font-medium text-gray-900">{{ tasks_added_this_week }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-4 sm:px-6">
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-primary-600 hover:text-primary-500">View recent<span class="sr-only"> Tasks Added This Week</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overdue Tasks Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-red-100 rounded-md p-3">
+                                <i class="fas fa-exclamation-circle text-red-600 text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">Overdue Tasks</dt>
+                                    <dd class="text-lg font-medium text-gray-900">{{ overdue_tasks }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-4 sm:px-6">
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-primary-600 hover:text-primary-500">View overdue<span class="sr-only"> Overdue Tasks</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts and Additional Info Section -->
+        <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <!-- Task Progress Chart -->
+            <div class="bg-white shadow rounded-lg overflow-hidden">
+                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Task Progress</h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                        {% if total_tasks > 0 %}
+                            Completion rate: {{ completed_tasks }} of {{ total_tasks }} tasks ({{ progress_percentage|floatformat:0 }}%)
+                        {% else %}
+                            No tasks to display
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="p-6">
+                    <div class="h-64 flex items-center justify-center bg-gray-50 rounded-md">
+                        {% if total_tasks > 0 %}
+                        <div class="w-full max-w-md">
+                            <!-- Progress Bar -->
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                    <span>Progress</span>
+                                    <span>{{ completed_tasks }}/{{ total_tasks }} ({{ progress_percentage|floatformat:1 }}%)</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-4">
+                                    <div class="bg-primary-600 h-4 rounded-full transition-all duration-500 ease-out" 
+     data-width="{{ progress_percentage }}"
+     id="progress-bar">
+</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Stats Grid -->
+                            <div class="grid grid-cols-2 gap-4 mt-6">
+                                <div class="text-center p-4 bg-green-50 rounded-lg">
+                                    <div class="text-2xl font-bold text-green-700">{{ completed_tasks }}</div>
+                                    <div class="text-sm text-green-600">Completed</div>
+                                </div>
+                                <div class="text-center p-4 bg-red-50 rounded-lg">
+                                    <div class="text-2xl font-bold text-red-700">{{ overdue_tasks }}</div>
+                                    <div class="text-sm text-red-600">Overdue</div>
+                                </div>
+                                <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                    <div class="text-2xl font-bold text-blue-700">{{ tasks_added_this_week }}</div>
+                                    <div class="text-sm text-blue-600">This Week</div>
+                                </div>
+                                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                    <div class="text-2xl font-bold text-gray-700">{{ total_tasks }}</div>
+                                    <div class="text-sm text-gray-600">Total</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="text-center">
+                            <i class="fas fa-clipboard-list text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-500">No tasks available</p>
+                            <p class="text-sm text-gray-400 mt-2">Create your first task to see progress</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Tasks -->
+            <div class="bg-white shadow rounded-lg overflow-hidden">
+                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Tasks</h3>
+                    <p class="mt-1 text-sm text-gray-500">Your most recently added tasks</p>
+                </div>
+                <div class="p-6">
+                    <ul class="divide-y divide-gray-200">
+                        {% for task in recent_tasks %}
+                        <li class="py-4">
+                            <div class="flex space-x-3">
+                                <div class="flex-1 space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-medium">{{ task.title }}</h3>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                            {% if task.completed %}bg-green-100 text-green-800
+                                            {% elif task.is_overdue %}bg-red-100 text-red-800
+                                            {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                            {% if task.completed %}Completed
+                                            {% elif task.is_overdue %}Overdue
+                                            {% else %}Pending{% endif %}
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-gray-500">
+                                        Created: {{ task.created_at|date:"M d, Y" }}
+                                        {% if task.to_complete_at %}
+                                        • Due: {{ task.to_complete_at|date:"M d, Y" }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li class="py-8 text-center">
+                            <i class="fas fa-inbox text-3xl text-gray-400 mb-2"></i>
+                            <p class="text-gray-500">No recent tasks</p>
+                            <p class="text-sm text-gray-400 mt-1">Tasks you create will appear here</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="mt-6">
+                        <a href="#" class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            View all tasks
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mt-8 bg-white shadow rounded-lg overflow-hidden">
+            <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Quick Actions</h3>
+                <p class="mt-1 text-sm text-gray-500">Manage your tasks efficiently</p>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <a href="#" class="inline-flex items-center justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i> Add New Task
+                    </a>
+                    <a href="#" class="inline-flex items-center justify-center px-4 py-3 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-list mr-2"></i> View All Tasks
+                    </a>
+                    <a href="#" class="inline-flex items-center justify-center px-4 py-3 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-calendar mr-2"></i> Calendar View
+                    </a>
+                    <a href="#" class="inline-flex items-center justify-center px-4 py-3 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-cog mr-2"></i> Settings
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white mt-12 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex justify-center space-x-6 md:order-2">
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <span class="sr-only">Facebook</span>
+                        <i class="fab fa-facebook text-lg"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <span class="sr-only">Twitter</span>
+                        <i class="fab fa-twitter text-lg"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <span class="sr-only">GitHub</span>
+                        <i class="fab fa-github text-lg"></i>
+                    </a>
+                </div>
+                <div class="mt-8 md:mt-0 md:order-1">
+                    <p class="text-center text-base text-gray-400">&copy; 2023 TaskManager. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -15,17 +15,27 @@ def dashboard(request):
     user_tasks = Task.objects.filter(user=user)
     total_tasks = user_tasks.count()
     completed_tasks = user_tasks.filter(completed=True).count()
+    
+    # Calculate progress percentage safely
+    progress_percentage = 0
+    if total_tasks > 0:
+        progress_percentage = (completed_tasks / total_tasks) * 100
+    
     one_week_ago = timezone.now() - timedelta(days=7)
     tasks_added_this_week = user_tasks.filter(created_at__gte=one_week_ago).count()
     overdue_tasks = user_tasks.filter(to_complete_at__lt=timezone.now(), completed=False).count()
+
+    recent_tasks = user_tasks.order_by('-created_at')[:5]
+    
     context = {
         'total_tasks': total_tasks,
         'completed_tasks': completed_tasks,
+        'progress_percentage': progress_percentage,  # Add this line
         'tasks_added_this_week': tasks_added_this_week,
         'overdue_tasks': overdue_tasks,
+        'recent_tasks': recent_tasks,
     }
     return render(request, 'tasks/dashboard.html', context)
-
 @login_required
 def tasks(request):
     tasks = Task.objects.filter(user=request.user)  # Corrected filter syntax
@@ -43,6 +53,35 @@ def user_login(request):
         else:
             return render(request, 'tasks/login.html', {'error': 'Invalid credentials'})
     return render(request, 'tasks/login.html')
+
+@login_required
+def toggle_task(request, id):
+    if request.method == 'POST':
+        try:
+            # Get the task belonging to the current user
+            task = Task.objects.get(id=id, user=request.user)
+            
+            # Toggle the completed status
+            task.completed = not task.completed
+            task.save()
+            
+            return JsonResponse({
+                'success': True,
+                'completed': task.completed,
+                'task_id': task.id
+            })
+            
+        except Task.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'Task not found'
+            }, status=404)
+    
+    return JsonResponse({
+        'success': False,
+        'error': 'Invalid request method'
+    }, status=400)
+
 
 @login_required
 def delete_task(request, id):

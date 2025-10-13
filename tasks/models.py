@@ -15,3 +15,8 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+        
+    @property
+    def is_overdue(self):
+        return not self.completed and self.to_complete_at < timezone.now()
