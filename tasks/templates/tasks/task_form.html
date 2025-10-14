@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.id %}Edit Task{% else %}Create New Task{% endif %} - TaskManager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="{% url 'dashboard' %}" class="flex items-center">
+                            <i class="fas fa-tasks text-blue-600 text-2xl mr-2"></i>
+                            <span class="text-xl font-bold text-gray-800">TaskManager</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm font-medium text-gray-700 mr-4">{{ user.username }}</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                {% if form.instance.id %}Edit Task{% else %}Create New Task{% endif %}
+            </h1>
+            <p class="text-gray-600">
+                {% if form.instance.id %}
+                    Update your task details
+                {% else %}
+                    Add a new task to your list
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+            <div class="{% if message.tags == 'success' %}bg-green-50 border-green-200 text-green-800{% else %}bg-red-50 border-red-200 text-red-800{% endif %} border rounded-lg p-4">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Task Form -->
+        <div class="bg-white rounded-lg shadow-md border border-gray-200">
+            <form method="POST" class="p-6 space-y-6">
+                {% csrf_token %}
+                
+                <!-- Title Field -->
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                        Task Title *
+                    </label>
+                    <input type="text" 
+                           name="title" 
+                           id="title"
+                           value="{{ form.title.value|default:'' }}"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                           placeholder="What needs to be done?"
+                           required>
+                    {% if form.title.errors %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {% for error in form.title.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Description Field -->
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                        Description
+                    </label>
+                    <textarea name="description" 
+                              id="description"
+                              rows="4"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="Add some details about your task...">{{ form.description.value|default:'' }}</textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Due Date Field -->
+                    <div>
+                        <label for="to_complete_at" class="block text-sm font-medium text-gray-700 mb-2">
+                            Due Date
+                        </label>
+                        <input type="text" 
+                               name="to_complete_at" 
+                               id="to_complete_at"
+                               value="{{ form.to_complete_at.value|default:'' }}"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="Select date and time">
+                    </div>
+
+                    <!-- Priority Field -->
+                    <div>
+                        <label for="priority" class="block text-sm font-medium text-gray-700 mb-2">
+                            Priority
+                        </label>
+                        <select name="priority" 
+                                id="priority"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Select priority</option>
+                            <option value="low" {% if form.priority.value == 'low' %}selected{% endif %}>Low</option>
+                            <option value="medium" {% if form.priority.value == 'medium' or not form.priority.value %}selected{% endif %}>Medium</option>
+                            <option value="high" {% if form.priority.value == 'high' %}selected{% endif %}>High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Completed Field - Only show when editing -->
+                {% if form.instance.id %}
+                <div class="flex items-center">
+                    <input type="checkbox" 
+                           name="completed" 
+                           id="completed"
+                           {% if form.completed.value %}checked{% endif %}
+                           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="completed" class="ml-2 block text-sm text-gray-900">
+                        Mark as completed
+                    </label>
+                </div>
+                {% endif %}
+
+                <!-- Form Actions -->
+                <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+                    <a href="{% url 'tasks' %}" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        Cancel
+                    </a>
+                    <button type="submit" class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                        {% if form.instance.id %}Update Task{% else %}Create Task{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Initialize date picker
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#to_complete_at", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                time_24hr: false,
+                minuteIncrement: 15,
+                placeholder: "Select date and time"
+            });
+        });
+    </script>
+</body>
+</html>

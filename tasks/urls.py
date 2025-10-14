@@ -12,4 +12,5 @@ urlpatterns = [
     path('create_task/', views.create_task, name='create'),
     path('update_task/<int:id>/', views.update_task, name='update'),
     path('toggle_task/<int:id>/', views.toggle_task, name='toggle'),
+    path('calendar/',views.calendar,name='calendar'),
 ]
