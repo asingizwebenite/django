@@ -1,19 +1,17 @@
 {
-  "version": 2,
   "builds": [
     {
-      "src": "project/wsgi.py",
+      "src": "manage.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "staticfiles/**/*",
-      "use": "@vercel/static"
     }
   ],
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "project.settings"
+  },
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "project/wsgi.py"
+      "dest": "manage.py"
     }
   ]
 }
